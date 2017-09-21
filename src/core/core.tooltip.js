@@ -676,6 +676,10 @@ module.exports = function(Chart) {
 				pt.y += bodyFontSize + bodySpacing;
 			};
 
+			// initialize text color
+			var textColor = mergeOpacity(vm.bodyFontColor, opacity);
+			ctx.fillStyle = textColor;
+
 			// Before body lines
 			helpers.each(vm.beforeBody, fillLineOfText);
 
@@ -684,6 +688,10 @@ module.exports = function(Chart) {
 
 			// Draw body lines now
 			helpers.each(body, function(bodyItem, i) {
+				textColor = mergeOpacity(vm.labelTextColors[i], opacity);
+
+				// draw beforeLabel
+				ctx.fillStyle = textColor;
 				helpers.each(bodyItem.before, fillLineOfText);
 
 				helpers.each(bodyItem.lines, function(line) {
@@ -701,10 +709,10 @@ module.exports = function(Chart) {
 						// Inner square
 						ctx.fillStyle = mergeOpacity(vm.labelColors[i].backgroundColor, opacity);
 						ctx.fillRect(pt.x + 1, pt.y + 1, bodyFontSize - 2, bodyFontSize - 2);
-						var textColor = mergeOpacity(vm.labelTextColors[i], opacity);
-						ctx.fillStyle = textColor;
 					}
 
+					// draw label
+					ctx.fillStyle = textColor;
 					fillLineOfText(line);
 				});
 
